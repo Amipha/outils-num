@@ -21,3 +21,18 @@ def simulation_chaleur(L, alpha, N, r, t_fin, T_gauch, T_droite, T_init, save_fr
     T_save = np.array ( T_save )
     print ( f" Nombre de profils sauvegardes : {len(T_save)} " )
     return x, np.array(t_save), np.array(T_save)
+
+def Tracer_T_x(x, t, T):
+    fig , ax = plt.subplots(figsize = (9 , 6) )
+    colors = cm.plasma(np.linspace(0 , 1 , len(T_save)))
+
+    for k, (T_k, t_k) in enumerate(zip(T_save, t_save)):
+        ax.plot (x , T_k , color=colors[k], label=f"t = {t_k:.0f} s")
+
+    ax.set_xlabel (  "Position x ( m )" )
+    ax.set_ylabel ( "Temperature T ( degC )" )
+    ax.legend(loc='upper right')
+    ax.set_title ( "Evolution du profil de température de la barre" )
+    ax.grid (True, linestyle = "--"  , alpha = 0.5)
+    plt.tight_layout()
+    plt.show()
