@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 def simulation_chaleur(L, alpha, N, r, t_fin, T_gauch, T_droite, T_init, save_frac=10) :
 
