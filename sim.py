@@ -117,3 +117,41 @@ def simulation_chaleur_vect_f(L, alpha, N, r, t_fin, T_gauche, T_droite , f_init
             T_save.append ( T.copy() )
             t_save.append (( n + 1) * dt )
     return x , np . array ( t_save ) , np . array ( T_save )
+
+def simulation_chaleur_adiab(L, alpha, N, r, t_fin, T_gauche, T_droite , f_init , save_step_frac = 10) :
+    """
+    Resout l ’ equation de la chaleur 1 D par schema FTCS
+    ( version vectorisee NumPy ) .
+    Parametres
+    ----------
+    L: longueur de la barre ( m )
+    alpha: diffusivite thermique ( m ^2 / s )
+    N: nombre d ’ intervalles spatiaux
+    r: nombre de Fourier discret ( r <= 0.5)
+    t_fin: duree totale de simulation ( s )
+    T_gauche: temperature a x = 0 ( degC )
+    T_droite: temperature a x = L ( degC )
+    T_init: temperature initiale uniforme ( degC )
+    save_frac  fraction de pas de temps a sauvegarder
+    Retourne
+    --------
+    x , t_save , T_save
+    """
+    dx = L / N
+    dt = r * dx ** 2 / alpha
+    nt = int ( t_fin / dt )
+    x = np.linspace (0 , L , N + 1)
+    T = f_init(x)
+    T [0] = T_gauche
+
+    save_every = max(1, nt // save_step_frac)
+    T_save , t_save = [ T.copy()] , [0.0]
+    for n in range (nt) :
+    # Version vectorisee : une seule ligne !
+        T[1: - 1] = T[1: - 1] + r * ( T[2:] - 2 * T[1: - 1] + T[: - 2])
+        T[-1] = T[-2]
+    # T [0] et T [ - 1] ne sont pas modifies ( CL preservees )
+        if ( n + 1) % save_every == 0:
+            T_save.append ( T.copy() )
+            t_save.append (( n + 1) * dt )
+    return x , np . array ( t_save ) , np . array ( T_save )
