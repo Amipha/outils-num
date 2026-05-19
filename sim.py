@@ -37,7 +37,7 @@ def Tracer_T_x(x, t, T):
         ax.plot (x , T_k , color=colors[k], label=f"t = {t_k:.0f} s")
 
     ax.set_xlabel (  "Position x ( m )" )
-    ax.set_ylabel ( "Temperature T ( degC )" )
+    ax.set_ylabel ( "Temperature T ( °C )" )
     ax.legend(loc='upper right')
     ax.set_title ( "Evolution du profil de température de la barre" )
     ax.grid (True, linestyle = "--"  , alpha = 0.5)
